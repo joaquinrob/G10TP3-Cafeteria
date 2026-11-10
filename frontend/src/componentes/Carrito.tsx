@@ -4,9 +4,11 @@ import { formatearPrecio } from '../utils/precio';
 
 interface Props {
   onConfirmar: () => void;
+  /** Mientras se envia el pedido a la API no se puede volver a confirmar. */
+  enviando?: boolean;
 }
 
-export function Carrito({ onConfirmar }: Props) {
+export function Carrito({ onConfirmar, enviando = false }: Props) {
   const { estado, dispatch } = useCarrito();
   const vacio = estaVacio(estado);
 
@@ -52,8 +54,8 @@ export function Carrito({ onConfirmar }: Props) {
         </>
       )}
 
-      <button type="button" disabled={vacio} onClick={onConfirmar}>
-        Confirmar pedido
+      <button type="button" disabled={vacio || enviando} onClick={onConfirmar}>
+        {enviando ? 'Enviando pedido...' : 'Confirmar pedido'}
       </button>
     </section>
   );
