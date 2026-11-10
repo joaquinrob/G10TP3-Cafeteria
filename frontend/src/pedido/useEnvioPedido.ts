@@ -1,13 +1,7 @@
 import { useCallback, useState } from 'react';
 import { crearPedido } from '../api/cliente';
-import type { Pedido } from '../api/contrato';
 import { mensajeDeError } from '../menu/mensajeDeError';
-
-export type EstadoEnvio =
-  | { estado: 'inactivo' }
-  | { estado: 'enviando' }
-  | { estado: 'error'; mensaje: string }
-  | { estado: 'confirmado'; pedido: Pedido };
+import type { EstadoEnvio } from './estadoEnvio';
 
 export function useEnvioPedido(mesa: number | null) {
   const [envio, setEnvio] = useState<EstadoEnvio>({ estado: 'inactivo' });
