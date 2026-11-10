@@ -8,6 +8,7 @@ import { productosRouter } from './routes/productos.routes';
 import { pedidosRouter } from './routes/pedidos.routes';
 import { reportesRouter } from './routes/reportes.routes';
 import { manejarErrores } from './middleware/manejarErrores';
+import { rutaNoEncontrada } from './middleware/rutaNoEncontrada';
 
 /** Fabrica de la app: cada llamada crea repositorios nuevos (los tests no se pisan). */
 export function createApp() {
@@ -25,6 +26,7 @@ export function createApp() {
   app.use('/pedidos', pedidosRouter(pedidoService));
   app.use('/reportes', reportesRouter(reporteService));
 
+  app.use(rutaNoEncontrada);
   app.use(manejarErrores);
 
   return app;
