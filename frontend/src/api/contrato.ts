@@ -5,7 +5,7 @@ const variedadSchema = z.object({
   descripcion: z.string(),
 });
 
-const cafeSchema = z.object({
+export const cafeSchema = z.object({
   id: z.number().int(),
   tipo: z.enum(['expreso', 'filtrado']),
   nombre: z.string(),
@@ -16,7 +16,7 @@ const cafeSchema = z.object({
   precio: z.number(),
 });
 
-const pasteleriaSchema = z.object({
+export const pasteleriaSchema = z.object({
   id: z.number().int(),
   tipo: z.literal('pasteleria'),
   nombre: z.string(),
@@ -28,6 +28,8 @@ export const productoSchema = z.discriminatedUnion('tipo', [cafeSchema, pasteler
 export const productosSchema = z.array(productoSchema);
 
 export type Producto = z.infer<typeof productoSchema>;
+export type ProductoCafe = z.infer<typeof cafeSchema>;
+export type ProductoPasteleria = z.infer<typeof pasteleriaSchema>;
 
 export const pedidoSchema = z.object({
   id: z.number().int(),
