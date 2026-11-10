@@ -7,7 +7,7 @@ interface Props {
 }
 
 export function Carrito({ onConfirmar }: Props) {
-  const { estado } = useCarrito();
+  const { estado, dispatch } = useCarrito();
   const vacio = estaVacio(estado);
 
   return (
@@ -24,6 +24,27 @@ export function Carrito({ onConfirmar }: Props) {
                 <span>{item.nombre}</span>
                 <span>Cantidad: {item.cantidad}</span>
                 <span>Subtotal: {formatearPrecio(subtotalItem(item))}</span>
+                <button
+                  type="button"
+                  aria-label={`Restar ${item.nombre}`}
+                  onClick={() => dispatch({ tipo: 'restar', productoId: item.productoId })}
+                >
+                  -
+                </button>
+                <button
+                  type="button"
+                  aria-label={`Sumar ${item.nombre}`}
+                  onClick={() => dispatch({ tipo: 'sumar', productoId: item.productoId })}
+                >
+                  +
+                </button>
+                <button
+                  type="button"
+                  aria-label={`Quitar ${item.nombre}`}
+                  onClick={() => dispatch({ tipo: 'quitar', productoId: item.productoId })}
+                >
+                  Quitar
+                </button>
               </li>
             ))}
           </ul>
