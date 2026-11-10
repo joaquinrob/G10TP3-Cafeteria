@@ -10,7 +10,7 @@ export function App() {
   return (
     <CarritoProvider>
       <Encabezado mesa={mesa} />
-      <main>
+      <main className="container pb-4">
         <CargaMenu>{(productos) => <PantallaPedido productos={productos} mesa={mesa} />}</CargaMenu>
       </main>
     </CarritoProvider>

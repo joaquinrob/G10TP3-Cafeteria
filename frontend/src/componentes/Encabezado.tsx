@@ -5,9 +5,9 @@ interface Props {
 
 export function Encabezado({ mesa }: Props) {
   return (
-    <header>
-      <h1>Cafeteria Origen</h1>
-      <p>{mesa === null ? 'Retiro en la barra' : `Mesa ${mesa}`}</p>
+    <header className="container py-3">
+      <h1 className="h3 mb-1">Cafeteria Origen</h1>
+      <p className="mb-0 text-secondary">{mesa === null ? 'Retiro en la barra' : `Mesa ${mesa}`}</p>
     </header>
   );
 }

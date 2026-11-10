@@ -15,22 +15,24 @@ export function Carrito({ onConfirmar, enviando = false }: Props) {
 
   return (
     <section aria-labelledby="titulo-carrito">
-      <h2 id="titulo-carrito">Tu pedido</h2>
+      <h2 id="titulo-carrito" className="h4">
+        Tu pedido
+      </h2>
 
       {vacio ? (
-        <p>Tu carrito esta vacio</p>
+        <p className="text-secondary">Tu carrito esta vacio</p>
       ) : (
         <>
-          <ul>
+          <ul className="list-group mb-3">
             {estado.items.map((item) => (
               <FilaCarrito key={item.productoId} item={item} dispatch={dispatch} />
             ))}
           </ul>
-          <p>Subtotal general: {formatearPrecio(subtotalGeneral(estado))}</p>
+          <p className="fw-bold">Subtotal general: {formatearPrecio(subtotalGeneral(estado))}</p>
         </>
       )}
 
-      <button type="button" disabled={vacio || enviando} onClick={onConfirmar}>
+      <button type="button" className="btn btn-primary w-100" disabled={vacio || enviando} onClick={onConfirmar}>
         {enviando ? 'Enviando pedido...' : 'Confirmar pedido'}
       </button>
     </section>

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useId, type ReactNode } from 'react';
 
 export interface Opcion<T extends string> {
   valor: T;
@@ -17,24 +17,31 @@ interface Props<T extends string> {
 
 /** Un paso de eleccion: un grupo de radios con su titulo, etiquetas y detalle opcional. */
 export function GrupoOpciones<T extends string>({ titulo, nombre, opciones, elegida, onElegir }: Props<T>) {
+  const prefijo = useId();
+
   return (
-    <fieldset>
-      <legend>{titulo}</legend>
-      {opciones.map(({ valor, etiqueta, detalle }) => (
-        <div key={valor}>
-          <label>
+    <fieldset className="mb-3">
+      <legend className="h6">{titulo}</legend>
+      {opciones.map(({ valor, etiqueta, detalle }) => {
+        const id = `${prefijo}-${valor.replace(/\s+/g, '-')}`;
+        return (
+          <div key={valor} className="form-check mb-2">
             <input
+              className="form-check-input"
               type="radio"
+              id={id}
               name={nombre}
               value={valor}
               checked={elegida === valor}
               onChange={() => onElegir(valor)}
-            />{' '}
-            {etiqueta}
-          </label>
-          {detalle}
-        </div>
-      ))}
+            />
+            <label className="form-check-label" htmlFor={id}>
+              {etiqueta}
+            </label>
+            {detalle}
+          </div>
+        );
+      })}
     </fieldset>
   );
 }

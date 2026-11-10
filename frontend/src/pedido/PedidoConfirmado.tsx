@@ -27,16 +27,22 @@ export function PedidoConfirmado({ pedido, onNuevoPedido }: Props) {
   }
 
   return (
-    <section aria-labelledby="titulo-confirmado">
-      <h2 id="titulo-confirmado">Pedido confirmado</h2>
-      <p>Pedido #{actual.id}</p>
-      <p>Estado: {actual.estado}</p>
-      <p>Total: {formatearPrecio(actual.total)}</p>
-      {error && <p role="alert">{error}</p>}
-      <button type="button" disabled={actualizando} onClick={actualizar}>
+    <section aria-labelledby="titulo-confirmado" className="card card-body">
+      <h2 id="titulo-confirmado" className="h4">
+        Pedido confirmado
+      </h2>
+      <p className="mb-1">Pedido #{actual.id}</p>
+      <p className="mb-1">Estado: {actual.estado}</p>
+      <p className="fw-bold">Total: {formatearPrecio(actual.total)}</p>
+      {error && (
+        <p role="alert" className="alert alert-danger">
+          {error}
+        </p>
+      )}
+      <button type="button" className="btn btn-primary w-100 mb-2" disabled={actualizando} onClick={actualizar}>
         Actualizar estado
       </button>
-      <button type="button" onClick={onNuevoPedido}>
+      <button type="button" className="btn btn-outline-secondary w-100" onClick={onNuevoPedido}>
         Hacer otro pedido
       </button>
     </section>
