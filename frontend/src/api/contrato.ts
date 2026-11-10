@@ -28,3 +28,21 @@ export const productoSchema = z.discriminatedUnion('tipo', [cafeSchema, pasteler
 export const productosSchema = z.array(productoSchema);
 
 export type Producto = z.infer<typeof productoSchema>;
+
+export const pedidoSchema = z.object({
+  id: z.number().int(),
+  mesaId: z.number().int().optional(),
+  items: z.array(
+    z.object({
+      productoId: z.number().int(),
+      cantidad: z.number().int(),
+    }),
+  ),
+  estado: z.enum(['pendiente', 'en preparacion', 'entregado']),
+  total: z.number(),
+});
+
+export const errorApiSchema = z.object({ error: z.string() });
+
+export type Pedido = z.infer<typeof pedidoSchema>;
+export type ErrorApiRespuesta = z.infer<typeof errorApiSchema>;
