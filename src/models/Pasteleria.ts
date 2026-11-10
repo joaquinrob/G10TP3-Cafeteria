@@ -1,3 +1,5 @@
 import { Producto } from './Producto';
 
-export class Pasteleria extends Producto {}
+export class Pasteleria extends Producto {
+  readonly tipo = 'pasteleria' as const;
+}

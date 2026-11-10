@@ -1,4 +1,8 @@
+import { TipoProducto } from './tipos';
+
 export abstract class Producto {
+  abstract readonly tipo: TipoProducto;
+
   constructor(
     public readonly id: number,
     public readonly nombre: string,
