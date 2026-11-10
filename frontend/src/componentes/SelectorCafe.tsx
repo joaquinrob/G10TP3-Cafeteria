@@ -39,8 +39,8 @@ export function SelectorCafe({ productos, onAgregar }: Props) {
       etiqueta: valor,
       detalle: (
         <>
-          <p>{descripcionDe(valor)}</p>
-          {precio !== undefined && <p>{formatearPrecio(precio)}</p>}
+          <p className="small text-secondary mb-0">{descripcionDe(valor)}</p>
+          {precio !== undefined && <p className="fw-bold mb-0">{formatearPrecio(precio)}</p>}
         </>
       ),
     };
@@ -49,8 +49,10 @@ export function SelectorCafe({ productos, onAgregar }: Props) {
   const cafeElegido = bebida && tamanio && origen ? buscarCafe(productos, { bebida, tamanio, origen }) : undefined;
 
   return (
-    <section aria-labelledby="titulo-cafe">
-      <h2 id="titulo-cafe">Cafe</h2>
+    <section aria-labelledby="titulo-cafe" className="mb-4">
+      <h2 id="titulo-cafe" className="h4">
+        Cafe
+      </h2>
 
       <GrupoOpciones
         titulo="Bebida"
@@ -74,7 +76,12 @@ export function SelectorCafe({ productos, onAgregar }: Props) {
         onElegir={(valor) => setEleccion({ ...eleccion, origen: valor })}
       />
 
-      <button type="button" disabled={!cafeElegido} onClick={() => cafeElegido && onAgregar(cafeElegido)}>
+      <button
+        type="button"
+        className="btn btn-primary w-100"
+        disabled={!cafeElegido}
+        onClick={() => cafeElegido && onAgregar(cafeElegido)}
+      >
         Agregar al carrito
       </button>
     </section>

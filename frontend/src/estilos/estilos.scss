@@ -1,0 +1,29 @@
+// 1) Colores de la cafeteria Origen, definidos como variables ANTES de importar Bootstrap.
+$cafe-tostado: #3e2723;
+$cafe: #6f4e37;
+$cafe-con-leche: #8d6e63;
+$crema: #f5ede3;
+$canela: #b5651d;
+
+// Variables de Bootstrap que usan esos colores
+$primary: $cafe;
+$secondary: $cafe-con-leche;
+$danger: #b3261e;
+$body-bg: $crema;
+$body-color: $cafe-tostado;
+$headings-color: $cafe-tostado;
+$link-color: $canela;
+
+// 2) Bootstrap, ya con los colores de la cafeteria
+@import 'bootstrap/scss/bootstrap';
+
+// 3) Ajustes para el celular (375 px): el texto largo se corta y nada se sale del ancho.
+body {
+  overflow-wrap: break-word;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}

@@ -12,7 +12,7 @@ export function CargaMenu({ children }: Props) {
 
   if (menu.estado === 'cargando') {
     return (
-      <p role="status" aria-label="Cargando el menu">
+      <p role="status" aria-label="Cargando el menu" className="text-center py-4">
         Cargando el menu...
       </p>
     );
@@ -20,9 +20,9 @@ export function CargaMenu({ children }: Props) {
 
   if (menu.estado === 'error') {
     return (
-      <div role="alert">
+      <div role="alert" className="alert alert-danger">
         <p>{menu.mensaje}</p>
-        <button type="button" onClick={reintentar}>
+        <button type="button" className="btn btn-danger" onClick={reintentar}>
           Reintentar
         </button>
       </div>
