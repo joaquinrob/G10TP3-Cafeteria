@@ -3,6 +3,8 @@ import { Tamano, Variedad } from './tipos';
 import { GRAMOS_FILTRADO, PRECIO_BASE_FILTRADO } from '../config/precios';
 
 export class Filtrado extends Cafe {
+  readonly tipo = 'filtrado' as const;
+
   constructor(id: number, tamano: Tamano, variedad: Variedad) {
     super(id, `Filtrado ${tamano} ${variedad}`, PRECIO_BASE_FILTRADO, tamano, variedad, GRAMOS_FILTRADO[tamano]);
   }
