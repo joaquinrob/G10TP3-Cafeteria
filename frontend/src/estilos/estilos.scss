@@ -16,3 +16,14 @@ $link-color: $canela;
 
 // 2) Bootstrap, ya con los colores de la cafeteria
 @import 'bootstrap/scss/bootstrap';
+
+// 3) Ajustes para el celular (375 px): el texto largo se corta y nada se sale del ancho.
+body {
+  overflow-wrap: break-word;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
