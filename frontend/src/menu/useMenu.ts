@@ -1,12 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { obtenerProductos } from '../api/cliente';
-import type { Producto } from '../api/contrato';
+import type { EstadoMenu } from './estadoMenu';
 import { mensajeDeError } from './mensajeDeError';
-
-export type EstadoMenu =
-  | { estado: 'cargando' }
-  | { estado: 'error'; mensaje: string }
-  | { estado: 'listo'; productos: Producto[] };
 
 export function useMenu() {
   const [menu, setMenu] = useState<EstadoMenu>({ estado: 'cargando' });
