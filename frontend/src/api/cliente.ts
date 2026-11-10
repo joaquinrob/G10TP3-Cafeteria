@@ -1,3 +1,4 @@
+import type { z } from 'zod';
 import { errorApiSchema, pedidoSchema, productosSchema, type Pedido, type Producto } from './contrato';
 import { ErrorApi, ErrorContrato, ErrorRed } from './errores';
 
@@ -8,10 +9,14 @@ export interface NuevoPedido {
   items: { productoId: number; cantidad: number }[];
 }
 
-export async function obtenerProductos(): Promise<Producto[]> {
+/**
+ * Unico lugar donde se hace fetch: llama a la API, traduce los errores
+ * (red, API o contrato) y valida la respuesta con el esquema de Zod.
+ */
+async function solicitar<T>(ruta: string, esquema: z.ZodType<T>, init?: RequestInit): Promise<T> {
   let respuesta: Response;
   try {
-    respuesta = await fetch(`${URL_API}/productos`);
+    respuesta = await fetch(`${URL_API}${ruta}`, init);
   } catch {
     throw new ErrorRed();
   }
@@ -26,34 +31,19 @@ export async function obtenerProductos(): Promise<Producto[]> {
     );
   }
 
-  const resultado = productosSchema.safeParse(cuerpo);
+  const resultado = esquema.safeParse(cuerpo);
   if (!resultado.success) throw new ErrorContrato(resultado.error.message);
   return resultado.data;
 }
 
-export async function crearPedido(nuevo: NuevoPedido): Promise<Pedido> {
-  let respuesta: Response;
-  try {
-    respuesta = await fetch(`${URL_API}/pedidos`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mesaId: nuevo.mesaId ?? undefined, items: nuevo.items }),
-    });
-  } catch {
-    throw new ErrorRed();
-  }
+export function obtenerProductos(): Promise<Producto[]> {
+  return solicitar('/productos', productosSchema);
+}
 
-  const cuerpo: unknown = await respuesta.json().catch(() => null);
-
-  if (!respuesta.ok) {
-    const error = errorApiSchema.safeParse(cuerpo);
-    throw new ErrorApi(
-      respuesta.status,
-      error.success ? error.data.error : `Error ${respuesta.status} del servidor`,
-    );
-  }
-
-  const resultado = pedidoSchema.safeParse(cuerpo);
-  if (!resultado.success) throw new ErrorContrato(resultado.error.message);
-  return resultado.data;
+export function crearPedido(nuevo: NuevoPedido): Promise<Pedido> {
+  return solicitar('/pedidos', pedidoSchema, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ mesaId: nuevo.mesaId ?? undefined, items: nuevo.items }),
+  });
 }
