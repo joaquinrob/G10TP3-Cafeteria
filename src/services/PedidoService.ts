@@ -4,6 +4,13 @@ import { Pedido, PedidoConTotal } from '../models/Pedido';
 import { NoEncontradoError } from './errors';
 import { validarEstado, validarItems, validarMesa } from './validaciones';
 
+/** Cuerpo de POST /pedidos: llega sin validar, por eso los campos son unknown. */
+export interface CrearPedidoBody {
+  items?: unknown;
+  estado?: unknown;
+  mesaId?: unknown;
+}
+
 export class PedidoService {
   constructor(
     private pedidos: PedidoRepository,
@@ -23,7 +30,7 @@ export class PedidoService {
     return { ...pedido, total: this.calcularTotal(pedido) };
   }
 
-  crear(body: any): PedidoConTotal {
+  crear(body: CrearPedidoBody | undefined): PedidoConTotal {
     const items = validarItems(body?.items, this.productos);
     const estado = validarEstado(body?.estado);
     const mesaId = validarMesa(body?.mesaId);
