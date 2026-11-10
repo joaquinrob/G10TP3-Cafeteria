@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Producto } from '../api/contrato';
+import type { Producto, ProductoCafe } from '../api/contrato';
 import { buscarCafe, esCafe, type Bebida, type EleccionCafe, type Origen, type Tamanio } from '../menu/cafe';
 import { formatearPrecio } from '../utils/precio';
 
@@ -12,10 +12,10 @@ const ORIGENES: Origen[] = ['Colombia', 'Etiopia', 'Brasil'];
 
 interface Props {
   productos: Producto[];
-  onAgregar: (cafe: Producto) => void;
+  onAgregar: (cafe: ProductoCafe) => void;
 }
 
-export function SelectorCafe({ productos }: Props) {
+export function SelectorCafe({ productos, onAgregar }: Props) {
   const [eleccion, setEleccion] = useState<Partial<EleccionCafe>>({});
 
   const descripcionDe = (origen: Origen) =>
@@ -26,6 +26,9 @@ export function SelectorCafe({ productos }: Props) {
     if (!bebida || !tamanio) return undefined;
     return buscarCafe(productos, { bebida, tamanio, origen })?.precio;
   };
+
+  const { bebida, tamanio, origen } = eleccion;
+  const cafeElegido = bebida && tamanio && origen ? buscarCafe(productos, { bebida, tamanio, origen }) : undefined;
 
   return (
     <section aria-labelledby="titulo-cafe">
@@ -49,43 +52,47 @@ export function SelectorCafe({ productos }: Props) {
 
       <fieldset>
         <legend>Tamanio</legend>
-        {TAMANIOS.map((tamanio) => (
-          <label key={tamanio}>
+        {TAMANIOS.map((valor) => (
+          <label key={valor}>
             <input
               type="radio"
               name="tamanio"
-              value={tamanio}
-              checked={eleccion.tamanio === tamanio}
-              onChange={() => setEleccion({ ...eleccion, tamanio })}
+              value={valor}
+              checked={eleccion.tamanio === valor}
+              onChange={() => setEleccion({ ...eleccion, tamanio: valor })}
             />{' '}
-            {tamanio}
+            {valor}
           </label>
         ))}
       </fieldset>
 
       <fieldset>
         <legend>Origen</legend>
-        {ORIGENES.map((origen) => {
-          const precio = precioDe(origen);
+        {ORIGENES.map((valor) => {
+          const precio = precioDe(valor);
           return (
-            <div key={origen}>
+            <div key={valor}>
               <label>
                 <input
                   type="radio"
                   name="origen"
-                  value={origen}
-                  checked={eleccion.origen === origen}
-                  onChange={() => setEleccion({ ...eleccion, origen })}
-                  aria-describedby={`descripcion-${origen}`}
+                  value={valor}
+                  checked={eleccion.origen === valor}
+                  onChange={() => setEleccion({ ...eleccion, origen: valor })}
+                  aria-describedby={`descripcion-${valor}`}
                 />{' '}
-                {origen}
+                {valor}
               </label>
-              <p id={`descripcion-${origen}`}>{descripcionDe(origen)}</p>
+              <p id={`descripcion-${valor}`}>{descripcionDe(valor)}</p>
               {precio !== undefined && <p>{formatearPrecio(precio)}</p>}
             </div>
           );
         })}
       </fieldset>
+
+      <button type="button" disabled={!cafeElegido} onClick={() => cafeElegido && onAgregar(cafeElegido)}>
+        Agregar al carrito
+      </button>
     </section>
   );
 }
