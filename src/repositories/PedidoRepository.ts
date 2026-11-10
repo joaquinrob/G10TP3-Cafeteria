@@ -17,4 +17,10 @@ export class PedidoRepository {
   buscarPorId(id: number): Pedido | undefined {
     return this.pedidos.find((p) => p.id === id);
   }
+
+  /** Borra todos los pedidos y vuelve a numerar desde 1 (lo usan los E2E). */
+  reiniciar(): void {
+    this.pedidos = [];
+    this.siguienteId = 1;
+  }
 }

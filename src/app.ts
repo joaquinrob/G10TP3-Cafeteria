@@ -10,6 +10,7 @@ import { reportesRouter } from './routes/reportes.routes';
 import { manejarErrores } from './middleware/manejarErrores';
 import { rutaNoEncontrada } from './middleware/rutaNoEncontrada';
 import { cors } from './middleware/cors';
+import { testRouter } from './routes/test.routes';
 
 /** Fabrica de la app: cada llamada crea repositorios nuevos (los tests no se pisan). */
 export function createApp() {
@@ -27,6 +28,10 @@ export function createApp() {
   app.use('/productos', productosRouter(productoService));
   app.use('/pedidos', pedidosRouter(pedidoService));
   app.use('/reportes', reportesRouter(reporteService));
+
+  if (process.env.NODE_ENV === 'test') {
+    app.use('/__test__', testRouter(pedidoRepo, pedidoService));
+  }
 
   app.use(rutaNoEncontrada);
   app.use(manejarErrores);
