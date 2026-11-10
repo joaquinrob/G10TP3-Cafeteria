@@ -13,6 +13,8 @@ $body-bg: $crema;
 $body-color: $cafe-tostado;
 $headings-color: $cafe-tostado;
 $link-color: $canela;
+// Los radios necesitan un borde visible sobre el fondo crema (contraste)
+$form-check-input-border: 1px solid $cafe-con-leche;
 
 // 2) Bootstrap, ya con los colores de la cafeteria
 @import 'bootstrap/scss/bootstrap';
