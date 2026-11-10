@@ -34,6 +34,7 @@ export function PantallaPedido({ productos, mesa }: Props) {
     <>
       <SelectorCafe productos={productos} onAgregar={agregar} />
       <Pasteleria productos={productos} onAgregar={agregar} />
+      {envio.estado === 'error' && <p role="alert">{envio.mensaje}</p>}
       <Carrito onConfirmar={alConfirmar} enviando={envio.estado === 'enviando'} />
     </>
   );
