@@ -2,9 +2,7 @@ import { Router } from 'express';
 import { PedidoRepository } from '../repositories/PedidoRepository';
 import { PedidoService } from '../services/PedidoService';
 import { ValidacionError } from '../services/errors';
-
-/** Pedido que carga /seed cuando no se le pasan datos. */
-const PEDIDOS_SEMILLA = [{ mesaId: 9, items: [{ productoId: 19, cantidad: 1 }], estado: 'entregado' }];
+import { PEDIDOS_SEMILLA } from '../data/semilla';
 
 /** Endpoints de apoyo para los E2E. Solo se montan con NODE_ENV=test. */
 export function testRouter(pedidoRepo: PedidoRepository, pedidoService: PedidoService): Router {
