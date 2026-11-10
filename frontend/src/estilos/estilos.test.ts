@@ -30,4 +30,8 @@ describe('estilos: Bootstrap con los colores de la cafeteria', () => {
   it('los errores se muestran con el rojo de la cafeteria', () => {
     expect(css).toContain('--bs-danger: #b3261e');
   });
+
+  it('el texto largo se corta en vez de desbordar la pantalla del celular', () => {
+    expect(css).toMatch(/body\s*{\s*overflow-wrap:\s*break-word;\s*}/);
+  });
 });
