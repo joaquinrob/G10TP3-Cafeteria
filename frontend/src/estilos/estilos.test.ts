@@ -34,4 +34,8 @@ describe('estilos: Bootstrap con los colores de la cafeteria', () => {
   it('el texto largo se corta en vez de desbordar la pantalla del celular', () => {
     expect(css).toMatch(/body\s*{\s*overflow-wrap:\s*break-word;\s*}/);
   });
+
+  it('los radios tienen un borde marron que se ve sobre el fondo crema', () => {
+    expect(css).toMatch(/\.form-check-input\s*{[^}]*border:\s*1px solid #8d6e63/);
+  });
 });
