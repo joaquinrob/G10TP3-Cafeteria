@@ -47,3 +47,7 @@ export function crearPedido(nuevo: NuevoPedido): Promise<Pedido> {
     body: JSON.stringify({ mesaId: nuevo.mesaId ?? undefined, items: nuevo.items }),
   });
 }
+
+export function obtenerPedido(id: number): Promise<Pedido> {
+  return solicitar(`/pedidos/${id}`, pedidoSchema);
+}
