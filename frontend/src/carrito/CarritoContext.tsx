@@ -9,8 +9,14 @@ interface ValorCarrito {
 
 const CarritoContext = createContext<ValorCarrito | null>(null);
 
-export function CarritoProvider({ children }: { children: ReactNode }) {
-  const [estado, dispatch] = useReducer(carritoReducer, carritoVacio);
+interface Props {
+  children: ReactNode;
+  /** Estado con el que arranca el carrito (por defecto, vacio). Util para los tests. */
+  estadoInicial?: EstadoCarrito;
+}
+
+export function CarritoProvider({ children, estadoInicial = carritoVacio }: Props) {
+  const [estado, dispatch] = useReducer(carritoReducer, estadoInicial);
   return <CarritoContext.Provider value={{ estado, dispatch }}>{children}</CarritoContext.Provider>;
 }
 
