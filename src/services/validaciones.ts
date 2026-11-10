@@ -27,3 +27,12 @@ export function validarEstado(estado: any): EstadoPedido {
   }
   return estado;
 }
+
+/** La mesa es opcional; si viene, tiene que ser un entero mayor a 0. */
+export function validarMesa(mesaId: any): number | undefined {
+  if (mesaId === undefined) return undefined;
+  if (!Number.isInteger(mesaId) || mesaId <= 0) {
+    throw new ValidacionError('mesaId debe ser un entero mayor a 0');
+  }
+  return mesaId;
+}

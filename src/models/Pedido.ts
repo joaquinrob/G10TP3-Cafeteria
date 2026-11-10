@@ -9,6 +9,7 @@ export interface ItemPedido {
 
 export interface Pedido {
   id: number;
+  mesaId?: number;
   items: ItemPedido[];
   estado: EstadoPedido;
 }

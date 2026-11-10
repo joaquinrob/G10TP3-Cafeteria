@@ -2,7 +2,7 @@ import { PedidoRepository } from '../repositories/PedidoRepository';
 import { ProductoRepository } from '../repositories/ProductoRepository';
 import { Pedido, PedidoConTotal } from '../models/Pedido';
 import { NoEncontradoError } from './errors';
-import { validarEstado, validarItems } from './validaciones';
+import { validarEstado, validarItems, validarMesa } from './validaciones';
 
 export class PedidoService {
   constructor(
@@ -26,7 +26,8 @@ export class PedidoService {
   crear(body: any): PedidoConTotal {
     const items = validarItems(body?.items, this.productos);
     const estado = validarEstado(body?.estado);
-    const pedido = this.pedidos.crear({ items, estado });
+    const mesaId = validarMesa(body?.mesaId);
+    const pedido = this.pedidos.crear({ items, estado, ...(mesaId !== undefined && { mesaId }) });
     return this.conTotal(pedido);
   }
 
