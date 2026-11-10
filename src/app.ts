@@ -9,6 +9,7 @@ import { pedidosRouter } from './routes/pedidos.routes';
 import { reportesRouter } from './routes/reportes.routes';
 import { manejarErrores } from './middleware/manejarErrores';
 import { rutaNoEncontrada } from './middleware/rutaNoEncontrada';
+import { cors } from './middleware/cors';
 
 /** Fabrica de la app: cada llamada crea repositorios nuevos (los tests no se pisan). */
 export function createApp() {
@@ -20,6 +21,7 @@ export function createApp() {
   const reporteService = new ReporteService(pedidoRepo, productoRepo, pedidoService);
 
   const app = express();
+  app.use(cors);
   app.use(express.json());
 
   app.use('/productos', productosRouter(productoService));
