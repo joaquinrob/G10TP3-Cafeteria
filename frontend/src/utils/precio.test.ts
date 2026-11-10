@@ -13,4 +13,9 @@ describe('formatearPrecio', () => {
   ])('%i se muestra como %s', (valor, esperado) => {
     expect(formatearPrecio(valor)).toBe(esperado);
   });
+
+  it('redondea los centavos al peso mas cercano', () => {
+    expect(formatearPrecio(2500.4)).toBe('$2.500');
+    expect(formatearPrecio(2500.6)).toBe('$2.501');
+  });
 });
