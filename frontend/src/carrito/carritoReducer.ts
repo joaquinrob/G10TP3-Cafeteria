@@ -24,7 +24,7 @@ export function carritoReducer(estado: EstadoCarrito, accion: AccionCarrito): Es
       return cambiarCantidad(estado, accion.productoId, -1);
     case 'quitar':
       return { items: estado.items.filter((item) => item.productoId !== accion.productoId) };
-    default:
-      return estado;
+    case 'vaciar':
+      return carritoVacio;
   }
 }
