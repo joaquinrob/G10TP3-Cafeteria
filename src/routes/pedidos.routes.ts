@@ -13,6 +13,12 @@ export function pedidosRouter(service: PedidoService): Router {
     res.json(service.listar());
   });
 
+  router.get('/activos', (req, res) => {
+    const mesaId = req.query.mesaId;
+    const mesa = typeof mesaId === 'string' && /^\d+$/.test(mesaId) ? Number(mesaId) : mesaId;
+    res.json(service.listarActivos(mesa));
+  });
+
   router.get('/:id', (req, res) => {
     res.json(service.obtener(parseId(req.params.id)));
   });
