@@ -31,3 +31,7 @@ export const pedidoMesa4 = {
   estado: 'pendiente',
   total: 17220,
 };
+
+export function pedidoDeMesa(id: number, estado: 'pendiente' | 'en preparacion' | 'entregado' = 'pendiente', mesaId = 4) {
+  return { id, mesaId, items: [{ productoId: 19, cantidad: 1 }], estado, total: 2500 };
+}
