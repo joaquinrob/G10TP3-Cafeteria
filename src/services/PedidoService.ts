@@ -1,7 +1,7 @@
 import { PedidoRepository } from '../repositories/PedidoRepository';
 import { ProductoRepository } from '../repositories/ProductoRepository';
-import { Pedido, PedidoConTotal } from '../models/Pedido';
-import { NoEncontradoError } from './errors';
+import { ESTADOS_ACTIVOS, Pedido, PedidoConTotal } from '../models/Pedido';
+import { NoEncontradoError, ValidacionError } from './errors';
 import { validarEstado, validarItems, validarMesa } from './validaciones';
 
 /** Cuerpo de POST /pedidos: llega sin validar, por eso los campos son unknown. */
@@ -40,6 +40,16 @@ export class PedidoService {
 
   listar(): PedidoConTotal[] {
     return this.pedidos.listar().map((p) => this.conTotal(p));
+  }
+
+  listarActivos(mesaId: unknown): PedidoConTotal[] {
+    const mesa = validarMesa(mesaId);
+    if (mesa === undefined) throw new ValidacionError('mesaId es obligatorio');
+
+    return this.pedidos
+      .listar()
+      .filter((p) => p.mesaId === mesa && ESTADOS_ACTIVOS.includes(p.estado))
+      .map((p) => this.conTotal(p));
   }
 
   obtener(id: number): PedidoConTotal {
