@@ -1,5 +1,5 @@
 import type { z } from 'zod';
-import { errorApiSchema, pedidoSchema, productosSchema, type Pedido, type Producto } from './contrato';
+import { errorApiSchema, pedidoSchema, pedidosSchema, productosSchema, type Pedido, type Producto } from './contrato';
 import { ErrorApi, ErrorContrato, ErrorRed } from './errores';
 
 export const URL_API: string = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
@@ -50,4 +50,8 @@ export function crearPedido(nuevo: NuevoPedido): Promise<Pedido> {
 
 export function obtenerPedido(id: number): Promise<Pedido> {
   return solicitar(`/pedidos/${id}`, pedidoSchema);
+}
+
+export function obtenerPedidosActivos(mesaId: number): Promise<Pedido[]> {
+  return solicitar(`/pedidos/activos?mesaId=${encodeURIComponent(mesaId)}`, pedidosSchema);
 }

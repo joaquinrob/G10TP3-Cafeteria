@@ -44,6 +44,7 @@ export const pedidoSchema = z.object({
   total: z.number(),
 });
 
+export const pedidosSchema = z.array(pedidoSchema);
 export const errorApiSchema = z.object({ error: z.string() });
 
 export type Pedido = z.infer<typeof pedidoSchema>;
