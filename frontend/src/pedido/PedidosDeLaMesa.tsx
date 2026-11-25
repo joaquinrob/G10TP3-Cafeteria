@@ -5,11 +5,9 @@ interface Props {
   mesa: number;
 }
 
-/** Todos los pedidos de la mesa que siguen pendientes o en preparacion. */
 export function PedidosDeLaMesa({ mesa }: Props) {
   const { pedidos, error, actualizando, actualizar } = usePedidosDeMesa(mesa);
 
-  // Sin pedidos en curso (y sin error que mostrar) no hay nada que ver.
   if (pedidos.length === 0 && error === null) return null;
 
   return (
@@ -25,10 +23,12 @@ export function PedidosDeLaMesa({ mesa }: Props) {
       {pedidos.length > 0 && (
         <ul className="list-group list-group-flush mb-2">
           {pedidos.map((pedido) => (
-            <li key={pedido.id} className="list-group-item d-flex justify-content-between align-items-center px-0">
-              <span className="fw-bold">#{pedido.id}</span>
-              <span className="badge text-bg-secondary">{pedido.estado}</span>
-              <span>{formatearPrecio(pedido.total)}</span>
+            <li key={pedido.id} className="list-group-item d-flex align-items-center px-0">
+              <span className="col-3 fw-bold">#{pedido.id}</span>
+              <span className="col-6 text-center">
+                <span className="badge text-bg-secondary">{pedido.estado}</span>
+              </span>
+              <span className="col-3 text-end">{formatearPrecio(pedido.total)}</span>
             </li>
           ))}
         </ul>
