@@ -49,6 +49,23 @@ El front busca la API en `http://localhost:3000`. Para usar otra direccion se de
 VITE_API_URL=http://localhost:3100 npm run dev
 ```
 
+## Caracteristica extra: carrito persistente
+
+Si el cliente recarga la pagina, se le cierra el navegador o vuelve a escanear el QR, **no pierde el carrito**.
+
+- El carrito se guarda en `localStorage` en cada cambio y se lee al abrir el menu.
+- Cada mesa tiene su propio carrito (`origen.carrito.mesa-4`, `origen.carrito.mesa-7`, ...); sin mesa se usa `origen.carrito.barra`.
+- Al confirmar el pedido el carrito se vacia, asi que no se vuelve a cargar. Si la API rechaza el pedido, el carrito sigue guardado.
+- Lo guardado se valida con Zod antes de usarlo (igual que las respuestas de la API): si esta roto o tiene otra forma, se arranca con el carrito vacio.
+- Si el navegador no deja usar `localStorage` (modo privado, almacenamiento lleno), el carrito funciona igual, solo que no se recuerda.
+- Se guardan los precios que informo la API: el subtotal del carrito sigue siendo orientativo y el total real lo devuelve `POST /pedidos`.
+
+| Archivo | Que hace | Tests |
+|---|---|---|
+| `frontend/src/carrito/persistencia.ts` | `claveCarrito`, `leerCarrito` y `guardarCarrito` (funciones puras) | `persistencia.test.ts` |
+| `frontend/src/carrito/CarritoContext.tsx` | `CarritoProvider` con la prop opcional `claveAlmacenamiento` | `CarritoContext.persistente.test.tsx` |
+| `frontend/src/App.tsx` | Usa la clave de la mesa leida del QR | `App.persistencia.test.tsx` y `e2e/carrito-persistente.spec.ts` |
+
 ## Como correr los tests
 
 | Nivel | Herramientas | Donde | Como correrlo |
