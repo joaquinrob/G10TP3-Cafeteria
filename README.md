@@ -129,6 +129,12 @@ Estados posibles: `pendiente`, `en preparacion` y `entregado`.
 
 Devuelve el pedido con su estado, sus items y su total (el mismo formato de arriba). El front lo usa para seguir el pedido sin recargar la pagina.
 
+### GET /pedidos/activos?mesaId=N
+
+Devuelve una lista con los pedidos de la mesa `N` que siguen en curso (`pendiente` o `en preparacion`), en orden de creación y con el mismo formato de arriba. No incluye los `entregado`, los de otras mesas ni los de retiro en la barra. Sin pedidos en curso responde `200` con `[]`. El front lo usa para mostrar "Pedidos de tu mesa".
+
+`mesaId` es obligatorio y tiene que ser un entero mayor a 0; si falta o es inválido responde `400`.
+
 ### Errores
 
 Todos los errores responden `{ "error": "mensaje" }`, y el front muestra el mensaje tal cual:
