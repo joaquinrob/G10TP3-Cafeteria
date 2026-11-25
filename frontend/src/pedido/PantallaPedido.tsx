@@ -6,6 +6,7 @@ import { Carrito } from '../componentes/Carrito';
 import { Pasteleria } from '../componentes/Pasteleria';
 import { SelectorCafe } from '../componentes/SelectorCafe';
 import { PedidoConfirmado } from './PedidoConfirmado';
+import { PedidosDeLaMesa } from './PedidosDeLaMesa';
 import { useEnvioPedido } from './useEnvioPedido';
 
 interface Props {
@@ -19,7 +20,12 @@ export function PantallaPedido({ productos, mesa }: Props) {
   const { envio, confirmar, reiniciar } = useEnvioPedido(mesa);
 
   if (envio.estado === 'confirmado') {
-    return <PedidoConfirmado pedido={envio.pedido} onNuevoPedido={reiniciar} />;
+    return (
+      <>
+        <PedidoConfirmado pedido={envio.pedido} onNuevoPedido={reiniciar} />
+        {mesa !== null && <PedidosDeLaMesa key={envio.pedido.id} mesa={mesa} />}
+      </>
+    );
   }
 
   const agregar = ({ id, nombre, precio }: ProductoCarrito) =>
@@ -32,6 +38,7 @@ export function PantallaPedido({ productos, mesa }: Props) {
 
   return (
     <>
+      {mesa !== null && <PedidosDeLaMesa mesa={mesa} />}
       <SelectorCafe productos={productos} onAgregar={agregar} />
       <Pasteleria productos={productos} onAgregar={agregar} />
       {envio.estado === 'error' && (
